@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sith Happens</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void:     #05060f;
+      --deep:     #07080f;
+      --panel:    #0e0c18;
+      --crimson:  #8a1a0a;
+      --crimson2: #c83a1a;
+      --gold:     #c87840;
+      --gold-dim: #7a5a2a;
+      --parch:    #e8d4b0;
+      --stone:    #b8a888;
+      --muted:    #9a8a6a;
+      --dim:      #6a5a4a;
+      --border:   #2a1f10;
+      --border2:  #1a1d2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--void);
+      color: var(--stone);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(5,6,15,0.92);
+      border-bottom: 1px solid #2a1f10;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      min-height: 52px;
+    }
+
+    .nav-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--stone);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--gold);
+      border-color: var(--crimson);
+      outline: none;
+    }
+
+    @media (max-width: 480px) {
+      .nav-inner {
+        justify-content: center;
+        padding: 8px 16px;
+        gap: 8px;
+      }
+      .nav-links a {
+        font-size: 9px;
+        padding: 5px 8px;
+        letter-spacing: 1px;
+      }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px 48px;
+      background:
+        radial-gradient(ellipse at 50% 80%, rgba(138,26,10,0.18) 0%, transparent 65%),
+        var(--void);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22% 38%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 38% 8%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 52% 58%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 67% 22%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 83% 44%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 91% 68%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 14% 78%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 31% 62%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 82%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 76% 6%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 46% 32%, rgba(200,180,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 4% 52%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 14%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18% 28%, rgba(255,255,255,0.25) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .sith-glyph {
+      font-size: 52px;
+      color: var(--crimson2);
+      line-height: 1;
+      margin-bottom: 24px;
+      filter: drop-shadow(0 0 20px rgba(200,58,26,0.5));
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(200,58,26,0.5)); }
+      50%       { filter: drop-shadow(0 0 40px rgba(200,58,26,0.8)); }
+    }
+
+    .sith-code {
+      list-style: none;
+      margin-bottom: 48px;
+    }
+
+    .sith-code li {
+      font-size: clamp(16px, 3.5vw, 22px);
+      color: var(--parch);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(138,26,10,0.25);
+      opacity: 0;
+      transform: translateY(12px);
+      animation: rise 0.6s ease forwards;
+    }
+
+    .sith-code li:last-child { border-bottom: none; }
+
+    .sith-code li:nth-child(1) { animation-delay: 0.2s; }
+    .sith-code li:nth-child(2) { animation-delay: 0.5s; }
+    .sith-code li:nth-child(3) { animation-delay: 0.8s; }
+    .sith-code li:nth-child(4) { animation-delay: 1.1s; }
+    .sith-code li:nth-child(5) { animation-delay: 1.4s; }
+    .sith-code li:nth-child(6) { animation-delay: 1.7s; color: var(--gold); font-style: italic; font-size: clamp(15px, 3vw, 19px); }
+
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sith-code li { animation: none; opacity: 1; transform: none; }
+      .sith-glyph  { animation: none; }
+    }
+
+    .hero-cta {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border: 1px solid var(--crimson);
+      padding: 14px 36px;
+      background: rgba(138,26,10,0.1);
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .hero-cta:hover, .hero-cta:focus {
+      background: rgba(138,26,10,0.25);
+      border-color: var(--gold);
+      outline: none;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 32px;
+      margin: 40px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    .divider-glyph { color: var(--crimson); font-size: 18px; }
+
+    /* ── SECTIONS ── */
+    .site-main { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
+
+    section { margin-bottom: 64px; }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: bold;
+      color: var(--parch);
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+
+    .section-body {
+      font-size: 17px;
+      color: var(--stone);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    /* ── PRACTICE CARD ── */
+    .practice-card {
+      background: var(--panel);
+      border-left: 3px solid var(--crimson);
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 28px;
+      margin-top: 24px;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .detail-icon {
+      color: var(--crimson2);
+      font-size: 14px;
+      min-width: 20px;
+      margin-top: 4px;
+    }
+
+    .detail-text {
+      font-size: 16px;
+      color: var(--stone);
+      line-height: 1.5;
+    }
+
+    .detail-text strong { color: var(--parch); }
+
+    /* ── BRING LIST ── */
+    .bring-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .bring-list li {
+      font-size: 16px;
+      color: var(--stone);
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(42,31,16,0.5);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.4;
+    }
+
+    .bring-list li:last-child { border-bottom: none; }
+
+    .bring-list li::before {
+      content: '⚔';
+      color: var(--crimson);
+      font-size: 12px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      background: #1a0d06;
+      border-top: 1px solid var(--crimson);
+      border-bottom: 1px solid var(--crimson);
+      border-left: 1px solid var(--crimson);
+      border-right: 1px solid var(--crimson);
+      padding: 11px 22px;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .btn:hover, .btn:focus {
+      background: rgba(138,26,10,0.3);
+      outline: none;
+    }
+
+    /* ── JOIN SECTION ── */
+    .join-card {
+      background: var(--panel);
+      border-top: 2px solid var(--crimson);
+      border-bottom: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      padding: 36px 28px;
+      text-align: center;
+    }
+
+    .community-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .btn-community {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--parch);
+      text-decoration: none;
+      background: #100e1a;
+      border-top: 1px solid #3a2e1a;
+      border-bottom: 1px solid #3a2e1a;
+      border-left: 1px solid #3a2e1a;
+      border-right: 1px solid #3a2e1a;
+      padding: 11px 28px;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .btn-community:hover, .btn-community:focus {
+      background: rgba(58,46,26,0.6);
+      outline: none;
+    }
+
+    /* ── CLOSING QUOTE ── */
+    .closing {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .closing-quote {
+      font-size: 18px;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .closing-attr {
+      font-size: 13px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #040508;
+      border-top: 1px solid #151520;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .footer-text {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #3a3028;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 480px) {
+      .hero { padding: 48px 20px 40px; }
+      .detail-row { flex-direction: row; }
+      .btn-row { flex-direction: column; align-items: flex-start; }
+      .practice-card { padding: 20px; }
+      .join-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index_2026.html" class="nav-title">&#9876;&nbsp; Sith Happens</a>
+      <ul class="nav-links">
+        <li><a href="Sith_Gathering_Rules_2026.html">Gathering: Rules</a></li>
+        <li><a href="Sith_Gathering_Schedule_2026.html">Gathering: Schedule</a></li>
+        <li><a href="Rules_of_the_VRBO_2026.html">Gathering: VRBO</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" style="padding-top: 100px;">
+    <p class="hero-eyebrow">&#9876;&nbsp; Belegarth Medieval Combat Society &nbsp;&#9876;</p>
+    <div class="sith-glyph">⚔</div>
+    <h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: clamp(48px, 12vw, 96px); font-weight: bold; color: var(--parch); letter-spacing: 0.08em; line-height: 1.1; text-transform: uppercase; margin-bottom: 32px; text-shadow: 0 0 40px rgba(200,58,26,0.4);">Sith Happens</h1>
+    <a href="https://www.facebook.com/events/25666211776393056" class="hero-cta" target="_blank">&#9876;&nbsp; Enter the Gathering</a>
+  </header>
+
+  <main class="site-main">
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; What We Are</p>
+      <h1 class="section-title">What is Belegarth?</h1>
+      <p class="section-body">
+        Belegarth Medieval Combat Society is a full-contact foam combat sport inspired by fantasy and medieval warfare. Participants build their own padded weapons and engage in organized battles, melees, and scenarios.
+      </p>
+      <p class="section-body">
+        No experience is required. You need only the willingness to step onto the field.
+      </p>
+      <p class="section-body" style="font-style: italic; color: var(--parch);">
+        Arrive curious. Leave battle-tested.
+      </p>
+    </section>
+
+    <!-- WHAT TO BRING -->
+    <section id="gear">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; Come Prepared</p>
+      <h2 class="section-title">What to Bring</h2>
+      <ul class="bring-list">
+        <li>Drinking vessel</li>
+        <li>Swimsuit</li>
+        <li>Shower towel</li>
+        <li>Pool towel</li>
+        <li>Blanket</li>
+        <li>Pillow</li>
+        <li>Board/card games</li>
+        <li>Beyblades</li>
+        <li>Commander deck</li>
+        <li>Boffer swords</li>
+        <li>Personal shield</li>
+        <li>Knee pads and gloves</li>
+        <li>Sith Garb (for Saturday)</li>
+        <li>Party outfit (Star Wars cosplay, Taco Bell inspired, or Sweet 16 inspired)</li>
+        <li>Your favorite shot glass</li>
+        <li>A gift for your Emperor</li>
+      </ul>
+    </section>
+
+    <!-- JOIN -->
+    <section id="join">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; Join the Unit</p>
+      <h2 class="section-title">Stay Connected</h2>
+      <div class="join-card">
+        <p class="section-body" style="margin-bottom: 0;">
+          Follow us for event updates, gathering announcements, and unit news.
+        </p>
+        <div class="community-links">
+          <a href="https://discord.gg/sCk4EqdzKs" class="btn-community">Discord</a>
+          <a href="https://www.facebook.com/groups/270766830013128/" class="btn-community">Facebook</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOSING QUOTE -->
+    <div class="closing">
+      <ul class="sith-code" style="margin-bottom: 24px;">
+        <li>Peace is a lie, there is only passion.</li>
+        <li>Through passion, I gain strength.</li>
+        <li>Through strength, I gain power.</li>
+        <li>Through power, I gain victory.</li>
+        <li>Through victory, my chains are broken.</li>
+        <li>The Force shall free me.</li>
+      </ul>
+      <p class="closing-attr">- Book of Sith</p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-text">Belegarth Medieval Combat Society</p>
+  </footer>
+
+</body>
+</html>

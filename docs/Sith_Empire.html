@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Sith Empire - Sith Happens</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void:     #05060f;
+      --deep:     #07080f;
+      --panel:    #0e0c18;
+      --crimson:  #8a1a0a;
+      --crimson2: #c83a1a;
+      --gold:     #c87840;
+      --gold-dim: #7a5a2a;
+      --parch:    #e8d4b0;
+      --stone:    #b8a888;
+      --muted:    #9a8a6a;
+      --dim:      #6a5a4a;
+      --border:   #2a1f10;
+      --border2:  #1a1d2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--void);
+      color: var(--stone);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      padding-top: 52px;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(5,6,15,0.92);
+      border-bottom: 1px solid #2a1f10;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      min-height: 52px;
+    }
+
+    .nav-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--stone);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--gold);
+      border-color: var(--crimson);
+      outline: none;
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      border-color: var(--crimson);
+    }
+
+    @media (max-width: 480px) {
+      .nav-inner { justify-content: center; padding: 8px 16px; gap: 8px; }
+      .nav-links a { font-size: 9px; padding: 5px 8px; letter-spacing: 1px; }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      text-align: center;
+      padding: 64px 24px 48px;
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(138,26,10,0.18) 0%, transparent 65%),
+        var(--void);
+      border-bottom: 2px solid var(--crimson);
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .page-glyph {
+      font-size: 44px;
+      color: var(--crimson2);
+      line-height: 1;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 16px rgba(200,58,26,0.5));
+    }
+
+    .page-title {
+      font-size: clamp(32px, 7vw, 56px);
+      font-weight: bold;
+      color: var(--parch);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      text-shadow: 0 0 30px rgba(200,58,26,0.3);
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* ── MAIN ── */
+    .site-main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 48px 0 32px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    .divider-glyph { color: var(--crimson); font-size: 18px; }
+
+    /* ── SECTION ── */
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: bold;
+      color: var(--parch);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      line-height: 1.2;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .section-rule {
+      width: 160px;
+      height: 2px;
+      margin: 0 auto 40px;
+      background: linear-gradient(90deg, transparent, var(--crimson2), transparent);
+    }
+
+    /* ── MEMBER CARDS ── */
+    .members-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .member-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Emperor gets special treatment — larger */
+    .member-card.emperor .member-photo-wrap {
+      width: 240px;
+      height: 240px;
+    }
+
+    .member-photo-wrap {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--crimson);
+      box-shadow: 0 0 24px rgba(138,26,10,0.4), 0 0 60px rgba(138,26,10,0.15);
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .member-card.emperor .member-photo-wrap {
+      border-width: 4px;
+      box-shadow: 0 0 32px rgba(200,58,26,0.5), 0 0 80px rgba(138,26,10,0.2);
+    }
+
+    .member-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .member-rank {
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .member-name {
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: bold;
+      color: var(--parch);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .member-card.emperor .member-name {
+      font-size: clamp(22px, 5vw, 30px);
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(200,120,40,0.3);
+    }
+
+    .member-title {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .member-link {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      background: #1a0d06;
+      border-top: 1px solid var(--crimson);
+      border-bottom: 1px solid var(--crimson);
+      border-left: 1px solid var(--crimson);
+      border-right: 1px solid var(--crimson);
+      padding: 9px 20px;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .member-link:hover, .member-link:focus {
+      background: rgba(138,26,10,0.3);
+      outline: none;
+    }
+
+    /* ── SEPARATOR between members ── */
+    .member-sep {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 0 auto;
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+    }
+
+    .closing-quote {
+      font-size: 18px;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .closing-attr {
+      font-size: 13px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #040508;
+      border-top: 1px solid #151520;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .footer-text {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #3a3028;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 480px) {
+      .page-header { padding: 48px 20px 36px; }
+      .member-card.emperor .member-photo-wrap { width: 200px; height: 200px; }
+      .member-photo-wrap { width: 170px; height: 170px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-title">&#9876;&nbsp; Sith Happens &nbsp;&#9876;</a>
+      <ul class="nav-links">
+        <li><a href="Sith_Gathering_Rules_2026.html">Gathering: Rules</a></li>
+        <li><a href="Sith_Gathering_Schedule_2026.html">Gathering: Schedule</a></li>
+        <li><a href="Rules_of_the_VRBO_2026.html">Gathering: VRBO</a></li>
+        <li><a href="Korriban_2026.html">Korriban</a></li>
+        <li><a href="Sith_Empire.html" class="active">The Sith Empire</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <p class="page-eyebrow">&#9876;&nbsp; Sith Belegarth &nbsp;&#9876;</p>
+    <div class="page-glyph">⚔</div>
+    <h1 class="page-title">The Sith Empire</h1>
+    <p class="page-subtitle">
+      Those who have walked the path, proven their strength, and risen to lead. The darkness has risen.
+    </p>
+  </header>
+
+  <main class="site-main">
+
+    <!-- COMMAND -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-glyph">✦</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <p class="section-eyebrow">&#9876;&nbsp; High Command</p>
+    <h2 class="section-title">Command</h2>
+    <div class="section-rule"></div>
+
+    <div class="members-grid">
+
+      <!-- EMPEROR PET -->
+      <div class="member-card emperor">
+        <div class="member-photo-wrap">
+          <img src="emperor_pet.jpg" alt="Emperor Pet" />
+        </div>
+        <p class="member-rank">&#9876;&nbsp; Emperor &nbsp;&#9876;</p>
+        <h3 class="member-name">Emperor Pet</h3>
+        <p class="member-title">Ruler of the Sith Empire</p>
+        <a href="https://www.facebook.com/carla.delarosa.395?mibextid=ZbWKwL" class="member-link" target="_blank">&#9876;&nbsp; Facebook</a>
+      </div>
+
+      <div class="member-sep"></div>
+
+      <!-- DARTH WALRUS -->
+      <div class="member-card">
+        <div class="member-photo-wrap">
+          <img src="darth_walrus.jpg" alt="Darth Walrus" />
+        </div>
+        <p class="member-rank">&#9876;&nbsp; Darth &nbsp;&#9876;</p>
+        <h3 class="member-name">Darth Walrus</h3>
+        <p class="member-title">Shogun of the Scroll</p>
+        <a href="https://www.facebook.com/alex.delgado.7583992?mibextid=ZbWKwL" class="member-link" target="_blank">&#9876;&nbsp; Facebook</a>
+      </div>
+
+      <div class="member-sep"></div>
+
+      <!-- DARTH LINK -->
+      <div class="member-card">
+        <div class="member-photo-wrap">
+          <img src="darth_link.jpg" alt="Darth Link" />
+        </div>
+        <p class="member-rank">&#9876;&nbsp; Darth &nbsp;&#9876;</p>
+        <h3 class="member-name">Darth Link Dragonrider</h3>
+        <p class="member-title">Shogun of the Sword</p>
+        <a href="https://www.facebook.com/logyn.child?mibextid=ZbWKwL" class="member-link" target="_blank">&#9876;&nbsp; Facebook</a>
+      </div>
+
+    </div>
+
+    <!-- CLOSING -->
+    <div class="closing">
+      <p class="closing-quote">&#8220;Peace is a lie, there is only passion.&#8221;</p>
+      <p class="closing-attr">- Book of Sith</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="footer-text">Belegarth Medieval Combat Society</p>
+  </footer>
+
+</body>
+</html>

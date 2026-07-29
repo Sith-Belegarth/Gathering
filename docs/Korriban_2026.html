@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Korriban - Sith Happens</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void:     #05060f;
+      --deep:     #07080f;
+      --panel:    #0e0c18;
+      --crimson:  #8a1a0a;
+      --crimson2: #c83a1a;
+      --gold:     #c87840;
+      --gold-dim: #7a5a2a;
+      --parch:    #e8d4b0;
+      --stone:    #b8a888;
+      --muted:    #9a8a6a;
+      --dim:      #6a5a4a;
+      --border:   #2a1f10;
+      --border2:  #1a1d2e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--void);
+      color: var(--stone);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      padding-top: 52px;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(5,6,15,0.92);
+      border-bottom: 1px solid #2a1f10;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nav-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      min-height: 52px;
+    }
+
+    .nav-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--stone);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--gold);
+      border-color: var(--crimson);
+      outline: none;
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      border-color: var(--crimson);
+    }
+
+    @media (max-width: 480px) {
+      .nav-inner { justify-content: center; padding: 8px 16px; gap: 8px; }
+      .nav-links a { font-size: 9px; padding: 5px 8px; letter-spacing: 1px; }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      text-align: center;
+      padding: 64px 24px 48px;
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(138,26,10,0.18) 0%, transparent 65%),
+        var(--void);
+      border-bottom: 2px solid var(--crimson);
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .page-glyph {
+      font-size: 44px;
+      color: var(--crimson2);
+      line-height: 1;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 16px rgba(200,58,26,0.5));
+    }
+
+    .page-title {
+      font-size: clamp(36px, 8vw, 64px);
+      font-weight: bold;
+      color: var(--parch);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      text-shadow: 0 0 30px rgba(200,58,26,0.3);
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      letter-spacing: 4px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+    }
+
+    /* ── MAIN ── */
+    .site-main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    .divider-glyph { color: var(--crimson); font-size: 18px; }
+
+    /* ── SECTIONS ── */
+    section { margin-bottom: 56px; }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: bold;
+      color: var(--parch);
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
+
+    .section-body {
+      font-size: 17px;
+      color: var(--stone);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    /* ── PRACTICE CARD ── */
+    .practice-card {
+      background: var(--panel);
+      border-left: 3px solid var(--crimson);
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 28px;
+      margin-top: 24px;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .detail-icon {
+      color: var(--crimson2);
+      font-size: 13px;
+      min-width: 20px;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .detail-text {
+      font-size: 16px;
+      color: var(--stone);
+      line-height: 1.5;
+    }
+
+    .detail-text strong { color: var(--parch); }
+
+    /* ── BRING LIST ── */
+    .bring-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .bring-list li {
+      font-size: 16px;
+      color: var(--stone);
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(42,31,16,0.5);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.4;
+    }
+
+    .bring-list li:last-child { border-bottom: none; }
+
+    .bring-list li::before {
+      content: '⚔';
+      color: var(--crimson);
+      font-size: 12px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      background: #1a0d06;
+      border-top: 1px solid var(--crimson);
+      border-bottom: 1px solid var(--crimson);
+      border-left: 1px solid var(--crimson);
+      border-right: 1px solid var(--crimson);
+      padding: 11px 22px;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .btn:hover, .btn:focus {
+      background: rgba(138,26,10,0.3);
+      outline: none;
+    }
+
+    /* ── HIGHLIGHTS CARD ── */
+    .highlights-card {
+      background: #0e0b18;
+      border-left: 3px solid #5a3a8a;
+      border-top: 1px solid #2a1a3e;
+      border-right: 1px solid #2a1a3e;
+      border-bottom: 1px solid #2a1a3e;
+      padding: 28px;
+      margin-top: 24px;
+    }
+
+    .highlights-card .section-eyebrow { color: #7a5a9a; }
+    .highlights-card .section-title { color: #d4c0f0; }
+    .highlights-card .section-body { color: #9a88b8; }
+
+    .btn-violet {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c8a8f0;
+      text-decoration: none;
+      background: #130e1e;
+      border-top: 1px solid #5a3a8a;
+      border-bottom: 1px solid #5a3a8a;
+      border-left: 1px solid #5a3a8a;
+      border-right: 1px solid #5a3a8a;
+      padding: 11px 22px;
+      white-space: nowrap;
+      transition: background 0.2s;
+      margin-top: 16px;
+    }
+
+    .btn-violet:hover, .btn-violet:focus {
+      background: rgba(90,58,138,0.3);
+      outline: none;
+    }
+
+    /* ── JOIN CARD ── */
+    .join-card {
+      background: var(--panel);
+      border-top: 2px solid var(--crimson);
+      border-bottom: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      padding: 32px 28px;
+      text-align: center;
+    }
+
+    .community-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .btn-community {
+      display: inline-block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--parch);
+      text-decoration: none;
+      background: #100e1a;
+      border-top: 1px solid #3a2e1a;
+      border-bottom: 1px solid #3a2e1a;
+      border-left: 1px solid #3a2e1a;
+      border-right: 1px solid #3a2e1a;
+      padding: 11px 28px;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .btn-community:hover, .btn-community:focus {
+      background: rgba(58,46,26,0.6);
+      outline: none;
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .closing-quote {
+      font-size: 18px;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .closing-attr {
+      font-size: 13px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #040508;
+      border-top: 1px solid #151520;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .footer-text {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #3a3028;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 480px) {
+      .page-header { padding: 48px 20px 36px; }
+      .btn-row { flex-direction: column; align-items: flex-start; }
+      .practice-card, .highlights-card, .join-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+        <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-title">&#9876;&nbsp; Sith Happens &nbsp;&#9876;</a>
+      <ul class="nav-links">
+        <li><a href="Sith_Gathering_Rules_2026.html">Gathering: Rules</a></li>
+        <li><a href="Sith_Gathering_Schedule_9_2026.html">Gathering: Schedule</a></li>
+        <li><a href="Rules_of_the_VRBO_2026.html">Gathering: VRBO</a></li>
+        <li><a href="Korriban_2026.html" class="active">Korriban</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <p class="page-eyebrow">&#9876;&nbsp; Sith Belegarth &nbsp;&#9876;</p>
+    <div class="page-glyph">⚔</div>
+    <h1 class="page-title">Korriban</h1>
+    <p class="page-subtitle">Corona &amp; Riverside, California</p>
+  </header>
+
+  <main class="site-main">
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; The Realm</p>
+      <h2 class="section-title">What is Korriban?</h2>
+      <p class="section-body">
+        In Belegarth, a realm is a local practice group — the place where fighters gather regularly to train, fight, and build community. Korriban is our realm, based in the Corona and Riverside area of Southern California.
+      </p>
+      <p class="section-body">
+        Korriban fights under the banner of the Sith, a Belegarth unit whose members are bound not by geography but by shared identity. Your realm is where you practice. Your unit is whose banner you carry into battle.
+      </p>
+      <p class="section-body" style="font-style: italic; color: var(--parch);">
+        Arrive curious. Leave battle-tested.
+      </p>
+    </section>
+
+    <!-- FIGHTER PRACTICE -->
+    <section id="practice">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; Take the Field</p>
+      <h2 class="section-title">Fighter Practice</h2>
+      <p class="section-body">
+        Korriban holds regular fighter practice at Promenade Park in Corona. All skill levels are welcome — veteran fighters and first-timers alike. Loaner weapons are available. Just show up.
+      </p>
+
+      <div class="practice-card">
+        <div class="detail-row">
+          <div class="detail-icon">&#9876;</div>
+          <div class="detail-text"><strong>6:00 PM</strong></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-icon">&#9876;</div>
+          <div class="detail-text">
+            <strong>Promenade Park</strong><br />
+            615 Richey St, Corona, CA 92879<br />
+            Enter from Richey St or Mary Helen St for closest parking.
+          </div>
+        </div>
+        <div class="btn-row">
+          <a href="https://maps.app.goo.gl/dJasqzvZCkTfrxEP9" class="btn">&#9876;&nbsp; Get Directions</a>
+          <a href="https://www.facebook.com/korribanbelegarth" class="btn">&#9876;&nbsp; Check Schedule</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT TO BRING -->
+    <section id="gear">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; Come Prepared</p>
+      <h2 class="section-title">What to Bring</h2>
+      <ul class="bring-list">
+        <li>Water</li>
+        <li>Sunscreen</li>
+        <li>Padded gloves (lacrosse or hockey)</li>
+        <li>Kneepads (volleyball style)</li>
+        <li>Eye protection</li>
+        <li>Athletic clothes or medieval garb</li>
+        <li>Friends who might enjoy fighting</li>
+      </ul>
+    </section>
+
+    <!-- WHAT IS BELEGARTH -->
+    <section id="belegarth">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; New to the Field?</p>
+      <h2 class="section-title">What is Belegarth?</h2>
+      <p class="section-body">
+        Belegarth Medieval Combat Society is a full-contact foam combat sport inspired by fantasy and medieval warfare. Participants build their own padded weapons and engage in organized battles, melees, and scenarios.
+      </p>
+      <p class="section-body">
+        No experience is required. You need only the willingness to step onto the field. Loaner weapons are available at every Korriban practice.
+      </p>
+    </section>
+
+    <!-- HIGHLIGHTS -->
+    <section id="highlights">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <div class="highlights-card">
+        <p class="section-eyebrow">&#9876;&nbsp; From the Archives</p>
+        <h2 class="section-title">2026 Highlights</h2>
+        <p class="section-body">
+          If you stood with us, thank you. If you missed it, here is a glimpse of what passed.
+        </p>
+        <a href="https://photos.app.goo.gl/VbhtQxsQF7km6uyQ9" class="btn-violet">&#9876;&nbsp; View Photos</a>
+      </div>
+    </section>
+
+    <!-- JOIN -->
+    <section id="join">
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-glyph">✦</div>
+        <div class="divider-line"></div>
+      </div>
+      <p class="section-eyebrow">&#9876;&nbsp; Stay Connected</p>
+      <h2 class="section-title">Join the Realm</h2>
+      <div class="join-card">
+        <p class="section-body" style="margin-bottom: 0;">
+          Follow Korriban online for practice schedules, event announcements, and realm news.
+        </p>
+        <div class="community-links">
+          <a href="https://discord.gg/JkujX5NW2Y" class="btn-community">Discord</a>
+          <a href="https://www.facebook.com/korribanbelegarth" class="btn-community">Facebook</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <div class="closing">
+      <p class="closing-quote">&#8220;Peace is a lie, there is only passion.&#8221;</p>
+      <p class="closing-attr">- Book of Sith</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="footer-text">Korriban &nbsp;&#183;&nbsp; Belegarth Medieval Combat Society<br />Corona &amp; Riverside, California</p>
+  </footer>
+
+</body>
+</html>

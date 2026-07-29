@@ -34,12 +34,11 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    
     /* ── NAV ── */
     .site-nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
       background: rgba(5,6,15,0.92);
       border-bottom: 1px solid #2a1f10;
@@ -48,7 +47,7 @@
     }
 
     .nav-inner {
-      max-width: 720px;
+      max-width: 920px;
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
@@ -60,12 +59,12 @@
     }
 
     .nav-title {
-      font-family: Georgia, 'Times New Roman', serif;
+      font-family: Georgia, "Times New Roman", serif;
       font-size: 13px;
       font-weight: bold;
       letter-spacing: 4px;
       text-transform: uppercase;
-      color: var(--gold);
+      color: #c87840;
       text-decoration: none;
       white-space: nowrap;
     }
@@ -73,42 +72,113 @@
     .nav-links {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 4px;
       list-style: none;
+      margin: 0;
+      padding: 0;
     }
 
-    .nav-links a {
-      font-family: Georgia, 'Times New Roman', serif;
+    .nav-links > li > a,
+    .nav-links > li > button {
+      font-family: Georgia, "Times New Roman", serif;
       font-size: 10px;
       font-weight: bold;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--stone);
+      color: #b8a888;
       text-decoration: none;
       padding: 6px 12px;
       border: 1px solid transparent;
+      background: none;
+      cursor: pointer;
       transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+      display: block;
+      line-height: 1;
+    }
+
+    .nav-links > li > a:hover,
+    .nav-links > li > a:focus,
+    .nav-links > li > button:hover,
+    .nav-links > li > button:focus {
+      color: #c87840;
+      border-color: #8a1a0a;
+      outline: none;
+    }
+
+    .nav-links > li > a.active {
+      color: #c87840;
+      border-color: #8a1a0a;
+    }
+
+    /* ── DROPDOWN ── */
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(5,6,15,0.98);
+      border: 1px solid #2a1f10;
+      border-top: 2px solid #8a1a0a;
+      list-style: none;
+      margin: 0;
+      padding: 4px 0;
+      min-width: 160px;
+      z-index: 200;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    .nav-dropdown-menu.open {
+      display: block;
+    }
+
+    /* Hover also opens on desktop */
+    @media (hover: hover) {
+      .nav-dropdown:hover .nav-dropdown-menu {
+        display: block;
+      }
+    }
+
+    .nav-dropdown-menu li a {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #b8a888;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-left: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
       white-space: nowrap;
     }
 
-    .nav-links a:hover,
-    .nav-links a:focus {
-      color: var(--gold);
-      border-color: var(--crimson);
+    .nav-dropdown-menu li a:hover,
+    .nav-dropdown-menu li a:focus,
+    .nav-dropdown-menu li a.active {
+      color: #c87840;
+      border-left-color: #8a1a0a;
+      background: rgba(138,26,10,0.1);
       outline: none;
     }
 
     @media (max-width: 480px) {
-      .nav-inner {
-        justify-content: center;
-        padding: 8px 16px;
-        gap: 8px;
-      }
-      .nav-links a {
-        font-size: 9px;
-        padding: 5px 8px;
-        letter-spacing: 1px;
-      }
+      .nav-inner { justify-content: center; padding: 8px 16px; gap: 8px; }
+      .nav-links > li > a,
+      .nav-links > li > button { font-size: 9px; padding: 5px 8px; letter-spacing: 1px; }
+      .nav-dropdown-menu { left: auto; right: 0; }
     }
 
     /* ── HERO ── */
@@ -459,14 +529,22 @@
 </head>
 <body>
 
-          <nav class="site-nav">
+              <nav class="site-nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-title">&#9876;&nbsp; Sith Happens &nbsp;&#9876;</a>
       <ul class="nav-links">
-        <li><a href="Sith_Gathering_Rules_2026.html">Gathering: Rules</a></li>
-        <li><a href="Sith_Gathering_Schedule_2026.html">Gathering: Schedule</a></li>
-        <li><a href="Rules_of_the_VRBO_2026.html">Gathering: VRBO</a></li>
+        <li class="nav-dropdown">
+          <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
+            Gathering &#9660;
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="Sith_Gathering_Rules_2026.html">Rules</a></li>
+            <li><a href="Sith_Gathering_Schedule_2026.html">Schedule</a></li>
+            <li><a href="Rules_of_the_VRBO_2026.html">VRBO Rules</a></li>
+          </ul>
+        </li>
         <li><a href="Korriban_2026.html">Korriban</a></li>
+        <li><a href="Sith_Empire.html">The Sith Empire</a></li>
       </ul>
     </div>
   </nav>
@@ -570,6 +648,29 @@
     <p class="footer-text">Belegarth Medieval Combat Society</p>
   </footer>
 
+
+  <script>
+    (function() {
+      var btn = document.querySelector(".nav-dropdown-btn");
+      var menu = document.querySelector(".nav-dropdown-menu");
+      if (!btn || !menu) return;
+
+      btn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        var isOpen = menu.classList.contains("open");
+        menu.classList.toggle("open", !isOpen);
+        btn.setAttribute("aria-expanded", !isOpen);
+      });
+
+      document.addEventListener("click", function() {
+        menu.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+      });
+
+      menu.addEventListener("click", function(e) {
+        e.stopPropagation();
+      });
+    })();
+  </script>
 </body>
-          </html>
-          
+</html>

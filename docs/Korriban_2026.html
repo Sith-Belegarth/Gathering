@@ -500,7 +500,7 @@
 </head>
 <body>
 
-              <nav class="site-nav">
+  <nav class="site-nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-title">&#9876;&nbsp; Sith Happens &nbsp;&#9876;</a>
       <ul class="nav-links">
@@ -679,4 +679,14 @@
       });
 
       document.addEventListener("click", function() {
-        menu.cl
+        menu.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+      });
+
+      menu.addEventListener("click", function(e) {
+        e.stopPropagation();
+      });
+    })();
+  </script>
+</body>
+</html>
